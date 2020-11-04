@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.horta.controller.openapi.PlantaControllerOpenAPI;
 import br.com.horta.model.Planta;
+import br.com.horta.security.permissoes.CheckSecurity;
 import br.com.horta.service.PlantaService;
 
 @CrossOrigin
@@ -28,6 +29,7 @@ public class PlantaController implements PlantaControllerOpenAPI{
 	@Autowired
 	private PlantaService service;
 	
+	@CheckSecurity.Planta.Administrador
 	@Override
 	@PostMapping
 	public void salvar(@RequestBody Planta planta) {
@@ -53,6 +55,7 @@ public class PlantaController implements PlantaControllerOpenAPI{
 		return ResponseEntity.notFound().build();
 	}
 	
+	@CheckSecurity.Planta.Administrador
 	@Override
 	@PutMapping("/{id}")
 	public ResponseEntity<?> atualizar(@RequestBody Planta planta, @PathVariable Long id){
@@ -68,6 +71,7 @@ public class PlantaController implements PlantaControllerOpenAPI{
 		return ResponseEntity.notFound().build();
 	}
 	
+	@CheckSecurity.Planta.Administrador
 	@Override
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Planta> excluir(@PathVariable Long id){

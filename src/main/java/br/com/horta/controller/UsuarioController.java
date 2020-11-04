@@ -21,6 +21,7 @@ import br.com.horta.controller.openapi.UsuarioControllerOpenAPI;
 import br.com.horta.dto.UsuarioDTO;
 import br.com.horta.model.Usuario;
 import br.com.horta.request.UsuarioRequest;
+import br.com.horta.security.permissoes.CheckSecurity;
 import br.com.horta.service.UsuarioService;
 
 @CrossOrigin
@@ -30,6 +31,7 @@ public class UsuarioController implements UsuarioControllerOpenAPI {
 	
 	@Autowired
 	private UsuarioService service;
+	
 	
 	@Override
 	@PostMapping
@@ -43,12 +45,14 @@ public class UsuarioController implements UsuarioControllerOpenAPI {
 		}
 	}
 	
+	@CheckSecurity.Usuario.Administrador
 	@Override
 	@GetMapping
 	public List<UsuarioDTO> listar(){
 		return service.listar();
 	}
 	
+	@CheckSecurity.Usuario.Administrador
 	@Override
 	@GetMapping("/{id}")
 	public ResponseEntity<Usuario> buscar(@PathVariable Long id){
@@ -61,6 +65,8 @@ public class UsuarioController implements UsuarioControllerOpenAPI {
 		return ResponseEntity.notFound().build();
 	}
 	
+	@CheckSecurity.Usuario.Logado
+	@CheckSecurity.Usuario.Administrador
 	@Override
 	@DeleteMapping("/{id}")
 	public ResponseEntity <Usuario> excluir(@PathVariable Long id){
@@ -72,6 +78,8 @@ public class UsuarioController implements UsuarioControllerOpenAPI {
 		}
 	}
 	
+	@CheckSecurity.Usuario.Logado
+	@CheckSecurity.Usuario.Administrador
 	@Override
 	@PutMapping("/{id}")
 	public ResponseEntity<?> atualizar(@RequestBody Usuario usuario, @PathVariable Long id) {
