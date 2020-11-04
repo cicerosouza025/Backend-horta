@@ -17,7 +17,7 @@ public @interface CheckSecurity {
 		//Logado pode o POST,PUT,GET(ID) e DELETE
 		//NaoLogado pode o POST
 		@PreAuthorize("isAuthenticated() and " + 
-				"hasAuthority('Admin')")
+				"hasAuthority('DH01')")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface Administrador {
@@ -25,7 +25,7 @@ public @interface CheckSecurity {
 
 		// DH02
 		@PreAuthorize("isAuthenticated() and " + 
-				"hasAuthority('cadastrado')")
+				"hasAuthority('DH02')")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface Logado {
@@ -49,7 +49,7 @@ public @interface CheckSecurity {
 		
 		// DH01
 		@PreAuthorize("isAuthenticated() and " + 
-				"hasAuthority('Admin')")
+				"hasAuthority('DH01')")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface Administrador {
@@ -57,7 +57,7 @@ public @interface CheckSecurity {
 		
 		// DH02
 		@PreAuthorize("isAuthenticated() and " + 
-				"hasAuthority('cadastrado')")
+				"hasAuthority('DH02')")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface Logado {
