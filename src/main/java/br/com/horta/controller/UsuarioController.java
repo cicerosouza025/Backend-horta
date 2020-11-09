@@ -78,8 +78,8 @@ public class UsuarioController implements UsuarioControllerOpenAPI {
 		}
 	}
 	
-	@CheckSecurity.Usuario.Logado
-	@CheckSecurity.Usuario.Administrador
+	//@CheckSecurity.Usuario.Logado
+	//@CheckSecurity.Usuario.Administrador
 	@Override
 	@PutMapping("/{id}")
 	public ResponseEntity<?> atualizar(@RequestBody Usuario usuario, @PathVariable Long id) {

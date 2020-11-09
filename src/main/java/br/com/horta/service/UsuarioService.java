@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.horta.dto.UsuarioDTO;
+import br.com.horta.email.EnvioEmailService;
+import br.com.horta.email.Mensagem;
 import br.com.horta.exception.ClienteNaoEncontradodException;
 import br.com.horta.mapper.UsuarioMapper;
 import br.com.horta.model.Grupo;
@@ -45,6 +47,9 @@ public class UsuarioService {
 
 	@Autowired
 	private GrupoRepository grupoRepository;
+	
+	@Autowired
+	private EnvioEmailService envioEmail;
 
 	@Transactional
 	public UsuarioDTO salvar(UsuarioRequest usuarioRequest) {
@@ -100,6 +105,17 @@ public class UsuarioService {
 
 	@Transactional
 	public void atualizar(Usuario usuario) {
+		
+		Mensagem mensagem = Mensagem.builder()
+				.assunto(usuario.getNome() + " - Cliente atualizado")
+				.corpo("usuario-atualizado.html")
+				.variavel("usuario", usuario)
+				.destinatario(usuario.getEmail())
+				.build();
+		
+		usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+		
+		envioEmail.enviar(mensagem);
 		
 		repository.save(usuario);
 	}
