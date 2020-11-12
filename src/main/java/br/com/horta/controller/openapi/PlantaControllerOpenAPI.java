@@ -39,7 +39,7 @@ public interface PlantaControllerOpenAPI {
 	ResponseEntity<Planta> buscar(Long id);
 	
 	@ApiOperation(value = "Atualizar Planta pelo ID", httpMethod = "PUT", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ApiResponses({ @ApiResponse(code = 200, message = "Cliente atualizado com sucesso.", response = Planta.class),
+	@ApiResponses({ @ApiResponse(code = 200, message = "Planta atualizada com sucesso.", response = Planta.class),
 			@ApiResponse(code = 404, message = "O recurso não foi encontrado", response = Problem.class) })
 	@ApiImplicitParam(name = "id", value = "Id a ser atualizado", required = true, dataType = "int", paramType = "path", example = "1")
 	ResponseEntity<?> atualizar(

@@ -20,10 +20,8 @@ import br.com.horta.exception.ClienteNaoEncontradodException;
 import br.com.horta.mapper.UsuarioMapper;
 import br.com.horta.model.Grupo;
 import br.com.horta.model.Usuario;
-import br.com.horta.model.UsuarioPermissao;
 import br.com.horta.repository.GrupoRepository;
 import br.com.horta.repository.PlantaRepository;
-import br.com.horta.repository.UsuarioPermissaoRepository;
 import br.com.horta.repository.UsuarioRepository;
 import br.com.horta.request.UsuarioRequest;
 
@@ -39,8 +37,6 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioMapper mapper;
 	
-	@Autowired
-	private UsuarioPermissaoRepository usuarioPermissaoRepository;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -54,26 +50,26 @@ public class UsuarioService {
 	@Transactional
 	public UsuarioDTO salvar(UsuarioRequest usuarioRequest) {
 	
-		UsuarioPermissao usuarioPermissao = new UsuarioPermissao();
-		Grupo grupo = grupoRepository.findById(1L).get();
-		
+		Grupo grupo = grupoRepository.findById(1L).get();	
 		
 		Usuario usuario = mapper.requesTotModel(usuarioRequest) ;
 		
 		usuario.setSenha(passwordEncoder.encode(usuarioRequest.getSenha()));
 		
-		//usuario.getPlantas().stream().forEach(planta -> planta.setUsuario(usuario));
+		Mensagem mensagem = Mensagem.builder()
+				.assunto(usuario.getNome() + " - Cadastro feito com sucesso")
+				.corpo("usuario-cadastrado.html")
+				.variavel("usuario", usuario)
+				.destinatario(usuario.getEmail())
+				.build();
 		
-		usuarioPermissao.setId(usuarioRequest.getId());
-		usuarioPermissao.setEmail(usuarioRequest.getEmail());
-		usuarioPermissao.setNome(usuarioRequest.getNome());
-		usuarioPermissao.setSenha(passwordEncoder.encode(usuarioRequest.getSenha()));
+		//usuario.getPlantas().stream().forEach(planta -> planta.setUsuario(usuario));
 		
 		Set<Grupo> grupos = new HashSet<>();
 		grupos.add(grupo);
-		usuarioPermissao.setGrupos(grupos);
+		usuario.setGrupos(grupos);
 		
-		usuarioPermissaoRepository.save(usuarioPermissao);
+		envioEmail.enviar(mensagem);
 	
 		return mapper.modelToDTO(repository.save(usuario));
 	}
@@ -107,7 +103,7 @@ public class UsuarioService {
 	public void atualizar(Usuario usuario) {
 		
 		Mensagem mensagem = Mensagem.builder()
-				.assunto(usuario.getNome() + " - Cliente atualizado")
+				.assunto(usuario.getNome() + " - Usuário atualizado!")
 				.corpo("usuario-atualizado.html")
 				.variavel("usuario", usuario)
 				.destinatario(usuario.getEmail())

@@ -16,71 +16,74 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.horta.controller.openapi.PlantaControllerOpenAPI;
-import br.com.horta.model.Planta;
+import br.com.horta.controller.openapi.PragaControllerOpenAPI;
+import br.com.horta.model.Praga;
 import br.com.horta.security.permissoes.CheckSecurity;
-import br.com.horta.service.PlantaService;
+import br.com.horta.service.PragaService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/planta")
-public class PlantaController implements PlantaControllerOpenAPI{
-	
+@RequestMapping("/praga")
+public class PragaController implements PragaControllerOpenAPI {
+
 	@Autowired
-	private PlantaService service;
+	private PragaService pragaService;
 	
-	@CheckSecurity.Planta.Administrador
+	//@CheckSecurity.Praga.Administrador
 	@Override
 	@PostMapping
-	public void salvar(@RequestBody Planta planta) {
-		service.salvar(planta);
+	public void salvar(@RequestBody Praga praga) {
+		
+		pragaService.salvar(praga);
 	}
 	
 	@Override
 	@GetMapping
-	public List<Planta> listar(){
-		return service.listar();
+	public List<Praga> listar(){
+		
+		return pragaService.listar();
 	}
 	
 	@Override
 	@GetMapping("/{id}")
-	public ResponseEntity<Planta> buscar(@PathVariable Long id) {
+	public ResponseEntity<Praga> buscarPorId(@PathVariable Long id){
 		
-		Optional<Planta> planta = service.buscar(id);
+		Optional<Praga> praga = pragaService.buscarPorId(id);
 		
-		if (planta.isPresent()) {
-			return ResponseEntity.ok(planta.get());
+		if(praga.isPresent()) {
+			return ResponseEntity.ok(praga.get());
 		}
 		
 		return ResponseEntity.notFound().build();
 	}
 	
-	@CheckSecurity.Planta.Administrador
+	//@CheckSecurity.Praga.Administrador
 	@Override
 	@PutMapping("/{id}")
-	public ResponseEntity<?> atualizar(@RequestBody Planta planta, @PathVariable Long id){
+	public ResponseEntity<?> atualizar(@RequestBody Praga praga, @PathVariable Long id){
 		
-		Planta plantaAtual = service.buscar(id).orElse(null);
+		Praga pragaAtual = pragaService.buscarPorId(id).orElse(null);
 		
-		if(plantaAtual != null) {
-			BeanUtils.copyProperties(planta, plantaAtual, "id");
-			service.atualizar(plantaAtual);
-			return ResponseEntity.ok(plantaAtual);
+		if(pragaAtual != null) {
+			BeanUtils.copyProperties(praga, pragaAtual, "id");
+			pragaService.atualizar(pragaAtual);
+			return ResponseEntity.ok(pragaAtual);
 		}
 		
 		return ResponseEntity.notFound().build();
 	}
 	
-	@CheckSecurity.Planta.Administrador
+	//@CheckSecurity.Praga.Administrador
 	@Override
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Planta> excluir(@PathVariable Long id){
+	public ResponseEntity<Praga> excluir(@PathVariable Long id){
+		
 		try {
-			service.excluir(id);
+			pragaService.excluir(id);
 			return ResponseEntity.noContent().build();
 		} catch(Exception e) {
 			return ResponseEntity.notFound().build();
 		}
 	}
-
+	
 }

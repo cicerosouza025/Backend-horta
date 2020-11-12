@@ -5,7 +5,7 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import br.com.horta.model.UsuarioPermissao;
+import br.com.horta.model.Usuario;
 import lombok.Getter;
 
 @Getter
@@ -16,11 +16,11 @@ private static final long serialVersionUID = 1L;
 	private Long userId;
 	private String nomeCompleto;
 	
-	public AuthUser(UsuarioPermissao usuarioPermissao, Collection<? extends GrantedAuthority> permissoes) {
-		super(usuarioPermissao.getEmail(), usuarioPermissao.getSenha(), permissoes);
+	public AuthUser(Usuario usuario, Collection<? extends GrantedAuthority> permissoes) {
+		super(usuario.getEmail(), usuario.getSenha(), permissoes);
 		
-		this.userId = usuarioPermissao.getId();
-		this.nomeCompleto = usuarioPermissao.getNome();
+		this.userId = usuario.getId();
+		this.nomeCompleto = usuario.getNome();
 	}
 	
 }

@@ -12,8 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.horta.model.UsuarioPermissao;
-import br.com.horta.repository.UsuarioPermissaoRepository;
+import br.com.horta.model.Usuario;
+import br.com.horta.repository.UsuarioRepository;
 
 
 
@@ -21,19 +21,19 @@ import br.com.horta.repository.UsuarioPermissaoRepository;
 public class JpaUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	private UsuarioPermissaoRepository usuarioPermissaoRepository;
+	private UsuarioRepository usuarioRepository;
 	
 	@Transactional(readOnly = true)
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		UsuarioPermissao usuario = usuarioPermissaoRepository.findByEmail(username)
+		Usuario usuario =  usuarioRepository.findByEmail(username)
 				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado com e-mail informado"));
 		
 		return new AuthUser(usuario, getAuthorities(usuario));
 	}
 	
-	private Collection<GrantedAuthority> getAuthorities(UsuarioPermissao usuarioPermissao) {
+	private Collection<GrantedAuthority> getAuthorities(Usuario usuarioPermissao) {
 		
 		return usuarioPermissao.getGrupos().stream()
 				.flatMap(grupo -> grupo.getPermissoes().stream())

@@ -72,4 +72,33 @@ public @interface CheckSecurity {
 		}	
 	}
 	
+	public @interface Praga {
+		
+		
+		// DH01
+		@PreAuthorize("isAuthenticated() and " + 
+				"hasAuthority('DH01')")
+		@Retention(RUNTIME)
+		@Target(METHOD)
+		public @interface Administrador {
+		}	
+		
+		// DH02
+		@PreAuthorize("isAuthenticated() and " + 
+				"hasAuthority('DH02')")
+		@Retention(RUNTIME)
+		@Target(METHOD)
+		public @interface Logado {
+		}	
+		
+		// DH03
+		@PreAuthorize("isAuthenticated() and " + 
+				"hasAuthority('DH03')")
+		@Retention(RUNTIME)
+		@Target(METHOD)
+		public @interface NaoLogado {
+		}	
+		
+	}
+	
 }
