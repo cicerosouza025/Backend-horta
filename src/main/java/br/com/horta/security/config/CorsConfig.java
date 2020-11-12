@@ -21,7 +21,7 @@ public class CorsConfig {
 		config.setAllowedHeaders(Collections.singletonList("*"));
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/oauth/token", config);
+		source.registerCorsConfiguration("/**", config);
 
 		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>();
 		bean.setFilter(new CorsFilter(source));
