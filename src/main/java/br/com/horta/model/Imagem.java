@@ -1,37 +1,34 @@
 package br.com.horta.model;
 
+import java.net.URL;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name="praga")
-public class Praga {
+@Table(name="imagens")
+public class Imagem {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name="nome_popular")
-	private String nomePopular;
-	
-	@Column(name="nome_cientifico")
-	private String nomeCientifico;
-	
 	@Column
-	private String descricao;
-	
+	private String nomeArquivo;
 	@Column
-	private String tratamento;
-	
-	@OneToOne
-	private Imagem foto;
+	private String nomeArquivoCompleto;
+	@Column
+	private String contentType;
+	@Column
+	private Long tamanho;
+	@Column
+	private URL url;
 
 }

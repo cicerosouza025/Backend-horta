@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.horta.controller.openapi.PragaControllerOpenAPI;
+import br.com.horta.dto.PragaDTO;
 import br.com.horta.model.Praga;
+import br.com.horta.request.PragaRequest;
 import br.com.horta.security.permissoes.CheckSecurity;
 import br.com.horta.service.PragaService;
 
@@ -32,15 +35,18 @@ public class PragaController implements PragaControllerOpenAPI {
 	//@CheckSecurity.Praga.Administrador
 	@Override
 	@PostMapping
-	public void salvar(@RequestBody Praga praga) {
-		
-		pragaService.salvar(praga);
+	public ResponseEntity<?> salvar(@RequestBody PragaRequest pragaRequest) {
+		try {
+			PragaDTO pragaDTO = pragaService.salvar(pragaRequest);
+			return ResponseEntity.status(HttpStatus.CREATED).body(pragaDTO);
+		} catch (Exception ex) {
+			return ResponseEntity.badRequest().body(ex.getMessage());
+		}
 	}
 	
 	@Override
 	@GetMapping
-	public List<Praga> listar(){
-		
+	public List<PragaDTO> listar(){
 		return pragaService.listar();
 	}
 	
@@ -53,7 +59,6 @@ public class PragaController implements PragaControllerOpenAPI {
 		if(praga.isPresent()) {
 			return ResponseEntity.ok(praga.get());
 		}
-		
 		return ResponseEntity.notFound().build();
 	}
 	
@@ -69,7 +74,6 @@ public class PragaController implements PragaControllerOpenAPI {
 			pragaService.atualizar(pragaAtual);
 			return ResponseEntity.ok(pragaAtual);
 		}
-		
 		return ResponseEntity.notFound().build();
 	}
 	

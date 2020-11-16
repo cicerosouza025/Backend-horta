@@ -7,8 +7,10 @@ import javax.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import br.com.horta.dto.PlantaDTO;
 import br.com.horta.exception.config.Problem;
 import br.com.horta.model.Planta;
+import br.com.horta.request.PlantaRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -22,15 +24,15 @@ public interface PlantaControllerOpenAPI {
 
 	
 	@ApiOperation("Cadastrar uma planta")
-	@ApiResponses({ @ApiResponse(code = 201, message = "Planta cadastrada", response = Planta.class) })
-	void salvar(
+	@ApiResponses({ @ApiResponse(code = 201, message = "Planta cadastrada", response = PlantaDTO.class) })
+	ResponseEntity<?> salvar(
 		@ApiParam(name = "corpo", value = "Representação de uma nova planta", required = true) 
-		@Valid Planta planta);
+		@Valid PlantaRequest plantaRequest);
 	
 	@ApiOperation(value = "Buscar todas as Plantas", httpMethod = "GET")
 	@ApiResponses({
-			@ApiResponse(code = 200, message = "Buscar todas as Plantas", response = Planta.class) })
-	List<Planta> listar();
+			@ApiResponse(code = 200, message = "Buscar todas as Plantas", response = PlantaDTO.class) })
+	List<PlantaDTO> listar();
 	
 	@ApiOperation(value = "Buscar Planta pelo ID", httpMethod = "GET")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Buscar Planta pelo ID", response = Planta.class),

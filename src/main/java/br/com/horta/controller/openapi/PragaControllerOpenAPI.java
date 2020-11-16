@@ -7,8 +7,10 @@ import javax.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import br.com.horta.dto.PragaDTO;
 import br.com.horta.exception.config.Problem;
 import br.com.horta.model.Praga;
+import br.com.horta.request.PragaRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -20,15 +22,15 @@ import io.swagger.annotations.ApiResponses;
 public interface PragaControllerOpenAPI {
 	
 	@ApiOperation("Cadastrar uma praga")
-	@ApiResponses({ @ApiResponse(code = 201, message = "Praga cadastrada", response = Praga.class) })
-	void salvar(
+	@ApiResponses({ @ApiResponse(code = 201, message = "Praga cadastrada", response = PragaDTO.class) })
+	ResponseEntity<?> salvar(
 		@ApiParam(name = "corpo", value = "Representação de uma nova praga", required = true) 
-		@Valid Praga praga);
+		@Valid PragaRequest pragaRequest);
 	
 	@ApiOperation(value = "Buscar todas as Pragas", httpMethod = "GET")
 	@ApiResponses({
-			@ApiResponse(code = 200, message = "Buscar todas as Pragas", response = Praga.class) })
-	List<Praga> listar();
+			@ApiResponse(code = 200, message = "Buscar todas as Pragas", response = PragaDTO.class) })
+	List<PragaDTO> listar();
 	
 	@ApiOperation(value = "Buscar Praga pelo ID", httpMethod = "GET")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Buscar Praga pelo ID", response = Praga.class),

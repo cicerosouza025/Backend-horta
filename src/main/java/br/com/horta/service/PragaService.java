@@ -2,17 +2,20 @@ package br.com.horta.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import br.com.horta.dto.PragaDTO;
 import br.com.horta.exception.ClienteNaoEncontradodException;
+import br.com.horta.mapper.PragaMapper;
 import br.com.horta.model.Praga;
 import br.com.horta.repository.PragaRepository;
+import br.com.horta.request.PragaRequest;
 
 @Service
 public class PragaService {
@@ -20,13 +23,21 @@ public class PragaService {
 	@Autowired
 	private PragaRepository pragaRepository;
 	
+	@Autowired
+	private PragaMapper mapper;
+	
 	@Transactional
-	public void salvar(@Valid Praga praga) {
-		pragaRepository.save(praga);	
+	public PragaDTO salvar(PragaRequest pragaRequest) {
+		
+		Praga praga = mapper.requestToModel(pragaRequest);
+		return mapper.modelToDTO( pragaRepository.save(praga) );
 	}
 
-	public List<Praga> listar() {
-		return pragaRepository.findAll();
+	public List<PragaDTO> listar() {
+		return pragaRepository.findAll()
+				.stream()
+				.map(pra -> mapper.modelToDTO(pra))
+				.collect(Collectors.toList());
 	}
 
 	public Optional<Praga> buscarPorId(Long id) {
