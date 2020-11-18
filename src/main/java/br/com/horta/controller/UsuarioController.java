@@ -96,4 +96,16 @@ public class UsuarioController implements UsuarioControllerOpenAPI {
 		return ResponseEntity.notFound().build();
 	}
 	
+
+	@PostMapping("/{usuarioId}/plantas/{plantaId}")
+	public ResponseEntity<?> incluirPlanta(@PathVariable Long usuarioId, @PathVariable Long plantaId){
+		try {
+			service.incluirPlanta(usuarioId, plantaId);
+			return (ResponseEntity<?>) ResponseEntity.status(HttpStatus.CREATED);
+
+		}catch(Exception ex) {
+			return ResponseEntity.badRequest().body(ex.getMessage());
+		}
+	}
+	
 }

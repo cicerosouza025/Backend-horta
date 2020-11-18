@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import br.com.horta.dto.PlantaDTO;
@@ -58,5 +59,19 @@ public class PlantaService {
 			throw new ClienteNaoEncontradodException(id);
 		}	
 	}
+
+	public List<PlantaDTO> filtrar(PlantaRequest filtro) {
+		
+		Planta planta = mapper.requestToModel(filtro);
+		
+		Example<Planta> exemplo = Example.of(planta);
+		
+		return plantaRepository.findAll(exemplo)
+				.stream()
+				.map(pla -> mapper.modelToDTO(pla))
+				.collect(Collectors.toList());
+		
+	}
+	
 
 }

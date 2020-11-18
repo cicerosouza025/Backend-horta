@@ -15,6 +15,6 @@ public class UsuarioRequest {
 	private TipoGenero genero;
 	private String email;
 	private String senha;
-	private List<Planta> plantas;
+	//private List<Planta> plantas;
 
 }

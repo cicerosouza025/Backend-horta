@@ -17,6 +17,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -44,9 +46,11 @@ public class Usuario {
 	@Enumerated(value = EnumType.STRING)
 	private TipoGenero genero;
 	
+	//@Email()
 	@Column(nullable = false)
 	private String email;
 	
+	@Size(min = 8, max = 20, message = "Senha no minímo 8 e no máximo 20")
 	@Column(nullable = false)
 	private String senha;
 	

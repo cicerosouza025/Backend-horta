@@ -19,6 +19,7 @@ import br.com.horta.email.Mensagem;
 import br.com.horta.exception.ClienteNaoEncontradodException;
 import br.com.horta.mapper.UsuarioMapper;
 import br.com.horta.model.Grupo;
+import br.com.horta.model.Planta;
 import br.com.horta.model.Usuario;
 import br.com.horta.repository.GrupoRepository;
 import br.com.horta.repository.PlantaRepository;
@@ -115,5 +116,21 @@ public class UsuarioService {
 		
 		repository.save(usuario);
 	}
+	
+	@Transactional
+	public void incluirPlanta(Long id, Long plantaId) {
+		Optional<Usuario> usuario = repository.findById(id);
 
+		usuario.ifPresent(usuario1 -> {
+			Optional<Planta> planta = plantaRepository.findById(plantaId);
+			planta.ifPresent(planta1 -> {
+				List<Planta> plantas = usuario1.getPlantas();
+				plantas.add(planta1);
+				usuario1.setPlantas(plantas);
+			});
+			repository.save(usuario1);
+		});
+	}
 }
+
+

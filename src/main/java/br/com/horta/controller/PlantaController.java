@@ -90,5 +90,12 @@ public class PlantaController implements PlantaControllerOpenAPI{
 			return ResponseEntity.notFound().build();
 		}
 	}
+	
+	
+	@PostMapping("/filtrar")
+	public List<PlantaDTO> filtrar(@RequestBody PlantaRequest filtro) {
+			return service.filtrar(filtro);
+		
+	}
 
 }
