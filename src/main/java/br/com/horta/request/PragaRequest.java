@@ -11,6 +11,6 @@ public class PragaRequest {
 	private String nomeCientifico;
 	private String descricao;
 	private String tratamento;
-	private Imagem foto;
+	//private Imagem foto;
 
 }

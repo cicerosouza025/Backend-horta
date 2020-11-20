@@ -31,7 +31,7 @@ public class Praga {
 	@Column
 	private String tratamento;
 	
-	@OneToOne
-	private Imagem foto;
+//	@OneToOne
+//	private Imagem foto;
 
 }

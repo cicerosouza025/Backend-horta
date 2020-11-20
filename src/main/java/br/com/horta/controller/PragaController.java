@@ -90,4 +90,10 @@ public class PragaController implements PragaControllerOpenAPI {
 		}
 	}
 	
+	@PostMapping("/filtrar")
+	public List<PragaDTO> filtrar(@RequestBody PragaRequest filtro) {
+			return pragaService.filtrar(filtro);
+		
+	}
+
 }
