@@ -55,7 +55,7 @@ public class Usuario {
 	private String senha;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "usuario_id")
+	@JoinColumn(name = "planta_id")
 	private List<Planta> plantas;
 	
 	@ManyToMany

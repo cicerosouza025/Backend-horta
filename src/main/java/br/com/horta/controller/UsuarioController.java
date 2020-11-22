@@ -101,7 +101,18 @@ public class UsuarioController implements UsuarioControllerOpenAPI {
 	public ResponseEntity<?> incluirPlanta(@PathVariable Long usuarioId, @PathVariable Long plantaId){
 		try {
 			service.incluirPlanta(usuarioId, plantaId);
-			return (ResponseEntity<?>) ResponseEntity.status(HttpStatus.CREATED);
+			return  ResponseEntity.ok().body("adicionado com sucesso");
+
+		}catch(Exception ex) {
+			return ResponseEntity.badRequest().body(ex.getMessage());
+		}
+	}
+	
+	@DeleteMapping("/{usuarioId}/plantas/{plantaId}")
+	public ResponseEntity<?> deletePlantaUsuario(@PathVariable Long usuarioId, @PathVariable Long plantaId){
+		try {
+			service.deletePlantaUsuario(usuarioId, plantaId);
+			return  ResponseEntity.ok().body("excluido com sucesso");
 
 		}catch(Exception ex) {
 			return ResponseEntity.badRequest().body(ex.getMessage());

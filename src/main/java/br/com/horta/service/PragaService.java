@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.horta.dto.PragaDTO;
 import br.com.horta.exception.ClienteNaoEncontradodException;
+import br.com.horta.filtro.PragaFiltro;
 import br.com.horta.mapper.PragaMapper;
 import br.com.horta.model.Praga;
 import br.com.horta.repository.PragaRepository;
@@ -60,16 +61,9 @@ public class PragaService {
 		}
 	}
 
-	public List<PragaDTO> filtrar(PragaRequest filtro) {
+	public List<Praga> filtrar(PragaFiltro filtro) {
 		
-		Praga praga = mapper.requestToModel(filtro);	
-		
-		Example<Praga> exemplo = Example.of(praga);
-		
-		return pragaRepository.findAll(exemplo)
-				.stream()
-				.map(pla -> mapper.modelToDTO(pla))
-				.collect(Collectors.toList());
+		return pragaRepository.findAll(filtro.getNome()); 
 		
 	}
 

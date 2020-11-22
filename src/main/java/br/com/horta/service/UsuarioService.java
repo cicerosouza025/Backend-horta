@@ -131,6 +131,21 @@ public class UsuarioService {
 			repository.save(usuario1);
 		});
 	}
+
+	public void deletePlantaUsuario(Long usuarioId, Long plantaId) {
+		
+		Optional<Usuario> usuario = repository.findById(usuarioId);
+
+		usuario.ifPresent(usuario1 -> {
+			Optional<Planta> planta = plantaRepository.findById(plantaId);
+			planta.ifPresent(planta1 -> {
+				List<Planta> plantas = usuario1.getPlantas();
+				plantas.remove(planta1);
+			});
+			repository.save(usuario1);
+		});
+		
+	}
 }
 
 
