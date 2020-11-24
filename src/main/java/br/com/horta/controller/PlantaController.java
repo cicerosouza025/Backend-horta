@@ -91,11 +91,25 @@ public class PlantaController implements PlantaControllerOpenAPI{
 		}
 	}
 	
-	
-	@PostMapping("/filtrar")
-	public List<PlantaDTO> filtrar(@RequestBody PlantaRequest filtro) {
-			return service.filtrar(filtro);
-		
-	}
+	@PostMapping("/{plantaId}/pragas/{pragaId}")
+	public ResponseEntity<?> incluirPraga(@PathVariable Long plantaId, @PathVariable Long pragaId){
+		try {
+			service.incluirPraga(plantaId, pragaId);
+			return  ResponseEntity.ok().body("adicionado com sucesso");
 
+		}catch(Exception ex) {
+			return ResponseEntity.badRequest().body(ex.getMessage());
+		}
+	}
+	
+	@DeleteMapping("/{plantaId}/pragas/{pragaId}")
+	public ResponseEntity<?> deletePragaPlanta(@PathVariable Long plantaId, @PathVariable Long pragaId){
+		try {
+			service.deletePragaPlanta(plantaId, pragaId);
+			return  ResponseEntity.ok().body("essa praga não faz mais parte dessa planta");
+
+		}catch(Exception ex) {
+			return ResponseEntity.badRequest().body(ex.getMessage());
+		}
+	}
 }

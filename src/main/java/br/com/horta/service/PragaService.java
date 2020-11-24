@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import br.com.horta.dto.PragaDTO;
 import br.com.horta.exception.ClienteNaoEncontradodException;
-import br.com.horta.filtro.PragaFiltro;
 import br.com.horta.mapper.PragaMapper;
 import br.com.horta.model.Praga;
 import br.com.horta.repository.PragaRepository;
@@ -59,12 +58,6 @@ public class PragaService {
 		} catch(EmptyResultDataAccessException e) {
 			throw new ClienteNaoEncontradodException(id);
 		}
-	}
-
-	public List<Praga> filtrar(PragaFiltro filtro) {
-		
-		return pragaRepository.findAll(filtro.getNome()); 
-		
 	}
 
 }

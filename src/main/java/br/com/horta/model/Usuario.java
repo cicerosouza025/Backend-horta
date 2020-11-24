@@ -46,16 +46,20 @@ public class Usuario {
 	@Enumerated(value = EnumType.STRING)
 	private TipoGenero genero;
 	
-	//@Email()
 	@Column(nullable = false)
 	private String email;
 	
-	@Size(min = 8, max = 20, message = "Senha no minímo 8 e no máximo 20")
+	@Size(min = 8, message = "Senha no minímo 8 e no máximo 20")
 	@Column(nullable = false)
 	private String senha;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "planta_id")
+//    @OneToMany(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "user_id")
+//	private List<Planta> plantas;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "usuario_planta", joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "planta_id"))
 	private List<Planta> plantas;
 	
 	@ManyToMany

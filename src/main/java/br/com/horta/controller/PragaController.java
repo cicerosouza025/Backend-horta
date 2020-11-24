@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.horta.controller.openapi.PragaControllerOpenAPI;
 import br.com.horta.dto.PragaDTO;
-import br.com.horta.filtro.PragaFiltro;
 import br.com.horta.model.Praga;
 import br.com.horta.request.PragaRequest;
 import br.com.horta.security.permissoes.CheckSecurity;
@@ -91,9 +90,6 @@ public class PragaController implements PragaControllerOpenAPI {
 		}
 	}
 	
-	@GetMapping()
-	public List<Praga> listarEstabelecimentos(PragaFiltro filtro){
-		return pragaService.filtrar(filtro);
-	}
+
 
 }

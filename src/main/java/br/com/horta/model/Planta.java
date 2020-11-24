@@ -1,12 +1,16 @@
 package br.com.horta.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -23,12 +27,10 @@ public class Planta {
 	private Long id;
 	
 	@Column
-	@Enumerated(value = EnumType.STRING)
-	private TipoIluminacao iluminacao;
+	private String luz;
 	
 	@Column
-	@Enumerated(value = EnumType.STRING)
-	private TipoUmidade umidade;
+	private String solo;
 	
 	@Column
 	private String descricao;
@@ -38,6 +40,23 @@ public class Planta {
 	
 	@Column
 	private String nomepo;
+	
+	@Column
+	private String temperatura;
+	
+	@Column
+	private String epoca;
+	
+	@Column
+	private String tempo;
+	
+	@Column
+	private String irrigacao;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "praga_planta", joinColumns = @JoinColumn(name = "plant_id"),
+			inverseJoinColumns = @JoinColumn(name = "praga_id"))
+	private List<Praga> pragas;
 	
 	@OneToOne
 	private Imagem foto;

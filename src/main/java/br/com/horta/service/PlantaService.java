@@ -8,14 +8,15 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import br.com.horta.dto.PlantaDTO;
 import br.com.horta.exception.ClienteNaoEncontradodException;
 import br.com.horta.mapper.PlantaMapper;
 import br.com.horta.model.Planta;
+import br.com.horta.model.Praga;
 import br.com.horta.repository.PlantaRepository;
+import br.com.horta.repository.PragaRepository;
 import br.com.horta.request.PlantaRequest;
 
 @Service
@@ -23,6 +24,9 @@ public class PlantaService {
 	
 	@Autowired
 	private PlantaRepository plantaRepository;
+	
+	@Autowired
+	private PragaRepository pragaRepository;
 	
 	@Autowired
 	private PlantaMapper mapper;
@@ -60,18 +64,34 @@ public class PlantaService {
 		}	
 	}
 
-	public List<PlantaDTO> filtrar(PlantaRequest filtro) {
-		
-		Planta planta = mapper.requestToModel(filtro);
-		
-		Example<Planta> exemplo = Example.of(planta);
-		
-		return plantaRepository.findAll(exemplo)
-				.stream()
-				.map(pla -> mapper.modelToDTO(pla))
-				.collect(Collectors.toList());
-		
+	@Transactional
+	public void incluirPraga(Long plantaId, Long pragaId) {
+		Optional<Planta> planta = plantaRepository.findById(plantaId);
+
+		planta.ifPresent(planta1 -> {
+			Optional<Praga> praga = pragaRepository.findById(pragaId);
+			praga.ifPresent(praga1 -> {
+				List<Praga> pragas = planta1.getPragas();
+				pragas.add(praga1);
+				planta1.setPragas(pragas);
+			});
+			plantaRepository.save(planta1);
+		});
 	}
 	
+	@Transactional
+	public void deletePragaPlanta(Long plantaId, Long pragaId){
+		
+		Optional<Planta> planta = plantaRepository.findById(plantaId);
+
+		planta.ifPresent(planta1 -> {
+			Optional<Praga> praga = pragaRepository.findById(pragaId);
+			praga.ifPresent(praga1 -> {
+				List<Praga> pragas = planta1.getPragas();
+				pragas.remove(praga1);
+			});
+			plantaRepository.save(planta1);
+		});
+	}
 
 }

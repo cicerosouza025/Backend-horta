@@ -132,6 +132,7 @@ public class UsuarioService {
 		});
 	}
 
+	@Transactional
 	public void deletePlantaUsuario(Long usuarioId, Long plantaId) {
 		
 		Optional<Usuario> usuario = repository.findById(usuarioId);
