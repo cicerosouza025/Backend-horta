@@ -8,5 +8,7 @@ import br.com.horta.model.Planta;
 
 @Repository
 public interface PlantaRepository extends JpaRepository<Planta, Long> {
+	
+
 
 }

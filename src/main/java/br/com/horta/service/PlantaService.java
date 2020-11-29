@@ -1,5 +1,6 @@
 package br.com.horta.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -92,6 +93,18 @@ public class PlantaService {
 			});
 			plantaRepository.save(planta1);
 		});
+	}
+	
+	public List<Praga> listarPragasDaPlanta(Long plantaId){
+
+		List<Praga> pragas = new ArrayList<Praga>();
+		Optional<Planta> planta = plantaRepository.findById(plantaId);
+		
+		planta.ifPresent(planta1 -> {
+			pragas.addAll(planta1.getPragas());
+		});
+		return pragas;
+
 	}
 
 }

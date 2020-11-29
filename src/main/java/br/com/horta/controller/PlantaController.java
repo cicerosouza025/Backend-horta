@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.horta.controller.openapi.PlantaControllerOpenAPI;
 import br.com.horta.dto.PlantaDTO;
 import br.com.horta.model.Planta;
+import br.com.horta.model.Praga;
 import br.com.horta.request.PlantaRequest;
 import br.com.horta.security.permissoes.CheckSecurity;
 import br.com.horta.service.PlantaService;
@@ -111,5 +112,11 @@ public class PlantaController implements PlantaControllerOpenAPI{
 		}catch(Exception ex) {
 			return ResponseEntity.badRequest().body(ex.getMessage());
 		}
+	}
+	
+	@GetMapping("/{plantaId}/pragas")
+	public List<Praga> listarPragasDaPlanta(@PathVariable Long plantaId){
+		return service.listarPragasDaPlanta(plantaId);
+
 	}
 }
